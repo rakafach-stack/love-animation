@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Love Heart</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: black;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+  }
+
+  .word {
+    position: absolute;
+    color: pink;
+    font-size: 14px;
+    font-weight: bold;
+    animation: float 3s ease-out forwards, pulse 2s ease-in-out infinite;
+  }
+
+  .love {
+    position: absolute;
+    font-size: 22px;
+    animation: naik 4s linear forwards;
+  }
+
+  .spark {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: pink;
+    border-radius: 50%;
+    animation: boom 1s linear forwards;
+  }
+
+  @keyframes float {
+    from {
+      transform: translateY(300px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+
+  @keyframes naik {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-120vh);
+      opacity: 0;
+    }
+  }
+
+  @keyframes boom {
+    to {
+      transform: translate(var(--x), var(--y));
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<script>
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2 - 40;
+  const scale = 12;
+
+  // ❤️ RUMUS HATI ASLI (BUKAN BELAH KETUPAT)
+  const heartPoints = [];
+  for (let t = 0; t < Math.PI * 2; t += 0.3) {
+    const x = scale * 16 * Math.pow(Math.sin(t), 3);
+    const y = -scale * (
+      13 * Math.cos(t)
+      - 5 * Math.cos(2 * t)
+      - 2 * Math.cos(3 * t)
+      - Math.cos(4 * t)
+    );
+    heartPoints.push({ x, y });
+  }
+
+  // 💬 I LOVE YOU membentuk hati
+  heartPoints.forEach((p, i) => {
+    const word = document.createElement("div");
+    word.className = "word";
+    word.innerText = "I LOVE YOU";
+
+    word.style.left = centerX + p.x + "px";
+    word.style.top = centerY + p.y + "px";
+    word.style.animationDelay = i * 0.03 + "s";
+
+    document.body.appendChild(word);
+  });
+
+  // 🎆 PETASAN (KELIHATAN!)
+  function firework(x, y) {
+    for (let i = 0; i < 20; i++) {
+      const spark = document.createElement("div");
+      spark.className = "spark";
+
+      const angle = Math.random() * 2 * Math.PI;
+      const dist = Math.random() * 80;
+
+      spark.style.left = x + "px";
+      spark.style.top = y + "px";
+      spark.style.setProperty("--x", Math.cos(angle) * dist + "px");
+      spark.style.setProperty("--y", Math.sin(angle) * dist + "px");
+
+      document.body.appendChild(spark);
+      setTimeout(() => spark.remove(), 1000);
+    }
+  }
+
+  // 🎇 Petasan di tengah hati
+  setTimeout(() => {
+    firework(centerX, centerY);
+  }, 1500);
+
+  // ❤️ Love ala TikTok
+  setInterval(() => {
+    const love = document.createElement("div");
+    love.className = "love";
+    love.innerText = "❤️";
+
+    love.style.left = Math.random() * window.innerWidth + "px";
+    love.style.bottom = "0px";
+
+    document.body.appendChild(love);
+    setTimeout(() => love.remove(), 4000);
+  }, 250);
+</script>
+
+</body>
+</html>
